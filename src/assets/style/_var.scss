@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+$bg-clr-main: #214d86;
+$bg-clr-header: #214667;
+$gray-clr: #666666;
+$font-main: 'Raleway', sans-serif;
+
+
+$breakpoints: (
+  'x-small': 560px,
+  'small':  767px,
+  'medium': 992px,
+  'large':  1200px
+) !default;
+
+@mixin respond-to($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media (max-width: map-get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  }
+  @else {
+    @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
+        + "Available breakpoints are: #{map-keys($breakpoints)}.";
+  }
+}

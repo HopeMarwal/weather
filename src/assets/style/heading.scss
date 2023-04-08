@@ -1,0 +1,31 @@
+@import './var';
+
+header {
+  background-color: $bg-clr-header;
+  padding: 10px;
+  input {
+    border: none;
+    outline: none;
+    font-family: $font-main;
+    width: 300px;
+    &::placeholder {
+      font-family: $font-main;
+      color: $gray-clr;
+    }
+  }
+  .select {
+    border: none;
+    outline: none;
+    fieldset {
+      border: none;
+      transition: all 0.3s linear;
+      background-color: #ffffff1f;
+      &:hover {
+        background-color: #ffffff3a;
+      }
+    }
+    svg {
+      color: #ebebeb;
+    }
+  }
+}

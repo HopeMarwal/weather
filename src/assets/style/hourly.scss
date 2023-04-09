@@ -7,12 +7,36 @@
   }
   hr {
     opacity: 0.3;
-    height: 1px;
+    border: none;
+    border-top: 1px solid #ccc;
+  }
+  .horizontal-scroll-bar {
+    flex-direction: row;
+    gap: 4px;
+    overflow-x: scroll;
+    scroll-behavior: smooth;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
   .hourlyCard {
+    transition: all 0.3s linear;
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    height: 220px;
+    padding: 15px 20px;
+    align-items: center;
     background: linear-gradient(0deg, rgba(255,255,255,0.04) 5%, rgba(255,255,255,0.122) 100%);
+    &:hover {
+      transform: scale(1.04);
+      .divider {
+        opacity: 0.8;
+      }
+    }
   }
   .divider {
+    transition: all 0.3s linear;
     width: calc(100% + 40px);
     margin: 0 -20px;
   }

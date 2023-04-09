@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Box, Stack } from '@mui/material';
 //style
 import '../assets/style/hourly.scss';
@@ -10,6 +10,7 @@ const accuWeatherToken = 'slIlACVHV0hMvoQA15SWVvGjN2B2yCEy'
 
 export default function HourlyForecast({ dataKey }) {
   const [hourForecast, setHourlyForecast] = useState(null)
+  const scroll = useRef()
 
   useEffect(() => {
     const fetchAPI = async () => {
@@ -25,6 +26,17 @@ export default function HourlyForecast({ dataKey }) {
 
   }, [dataKey])
 
+  useEffect(() => {
+    scroll.current.addEventListener("wheel", (evt) => {
+      evt.preventDefault();
+      scroll.current.scrollLeft += evt.deltaY*5;
+
+    return () => {
+      scroll.current.removeEventListener("wheel")
+    }
+  });
+  }, [])
+
   return (
     <Box p='10px' mt={2} className='hourlyForecast'>
       <Box sx={{
@@ -37,16 +49,12 @@ export default function HourlyForecast({ dataKey }) {
         
       }}>
         <Box sx={{ bgcolor: '#ffffff1f', padding: '10px' }}>
-          <span className='heading'>Hourly</span>
+          <span className='heading'>Hourly forecast</span>
         </Box>
         <hr />
 
         {/* Map hourlyForecast data */}
-        <Stack
-          direction='row'
-          gap='3px'
-          sx={{overflowX: 'scroll'}}
-        >
+        <Stack ref={scroll} className='horizontal-scroll-bar'>
           {
             hourForecast?.map((item, index) => (<HourlyCard key={index} data={item}/>))
           }

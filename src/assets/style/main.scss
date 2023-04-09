@@ -1,10 +1,22 @@
 @import './var';
+@keyframes gradient {
+  0% {
+      background-position: 0% 0%;
+  }
+  50% {
+      background-position: 100% 0%;
+  }
+  100% {
+      background-position: 0% 0%;
+  }
+}
 
 .main {
   font-family: $font-main !important;
   color: #fff;
-  background: url('../img/bg/partlysunny_day.webp') no-repeat;
-  background-size: 100%;
+  background: url('../img/bg/partlysunny_day.webp') repeat;
+  background-size: 200% 200%;
+  animation: gradient 60s linear infinite;
   span {
     display: block;
   }
@@ -28,5 +40,10 @@
     font-weight: 600;
     font-size: 18px;
     margin-bottom: 5px;
+  }
+  .title {
+    opacity: 0.8;
+    display: inline-block;
+    font-size: 14px;
   }
 }

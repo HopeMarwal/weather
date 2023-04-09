@@ -1,0 +1,30 @@
+@import './var';
+
+.hourlyForecast {
+  .heading {
+    font-weight: 600;
+    font-size: 14px;
+  }
+  hr {
+    opacity: 0.3;
+    height: 1px;
+  }
+  .hourlyCard {
+    background: linear-gradient(0deg, rgba(255,255,255,0.04) 5%, rgba(255,255,255,0.122) 100%);
+  }
+  .divider {
+    width: calc(100% + 40px);
+    margin: 0 -20px;
+  }
+  .temp {
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .desc {
+    font-size: 12px;
+    opacity: 0.8;
+  }
+  .time {
+    font-size: 14px;
+  }
+}

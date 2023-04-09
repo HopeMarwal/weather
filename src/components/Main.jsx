@@ -87,14 +87,7 @@ export default function Main({ dataKey }) {
     let isNight = hour > sunsetHour || hour < sunriseHour
 
     let iconId = isNight ? data.Night.Icon : data.Day.Icon
-    let icon;
-
-    //Find icon
-    for(let i = 1; i < weatherIcons.length; i++) {
-      if(weatherIcons[i].id === iconId) {
-        icon = weatherIcons[i].value
-      }
-    }
+    let icon = weatherIcons.find(el => el.id == iconId)
 
     //Create weather object
     const weather = {
@@ -102,7 +95,7 @@ export default function Main({ dataKey }) {
       maxTemperature: data.Temperature.Maximum.Value,
       temperature: Math.round((data.Temperature.Minimum.Value + data.Temperature.Maximum.Value)/2),
       phrase: isNight ? data.Night.LongPhrase : data.Day.LongPhrase,
-      icon: icon,
+      icon: icon.value,
       iconPhrase: isNight ? data.Night.IconPhrase : data.Day.IconPhrase,
       wind:  isNight ? data.Night.Wind.Speed.Value : data.Day.Wind.Speed.Value,
       rainProbability: isNight? data.Night.RainProbability : data.Day.RainProbability,
@@ -117,50 +110,53 @@ export default function Main({ dataKey }) {
   }
   
   return (
-    <Box 
-      borderRadius='5px'
-      p='30px 20px'
-      className='main'
-      sx={{ maxWidth: '720px', margin: 'auto', marginTop: '20px'}}
-    >
-      <h5>Current weather</h5>
-      <span className="time">{time}</span>
-
-      {/* Main weather data */}
-      <Stack
-        direction='row'
-        alignItems='center'
-        gap='10px'
-        sx={{fontFamily: "'Quicksand', sans-serif"}}
+    <Box p='0 10px'>
+      <Box 
+        borderRadius='5px'
+        p='30px 20px'
+        className='main'
+        sx={{ maxWidth: '720px', margin: 'auto', marginTop: '20px'}}
       >
-        <img src={forecastData?.icon} alt={forecastData?.iconPhrase} />
-        <span className="temp">{forecastData?.temperature } °C</span>
+        <h5>Current weather</h5>
+        <span className="time">{time}</span>
 
-        <Box pl='15px'>
-          <span className="phrase">{forecastData?.iconPhrase}</span>
-          <span>Feels like {forecastData?.realFeelTemp} °C</span>
-        </Box>
-        
-      </Stack>
+        {/* Main weather data */}
+        <Stack
+          direction='row'
+          alignItems='center'
+          gap='10px'
+          sx={{fontFamily: "'Quicksand', sans-serif"}}
+        >
+          <img src={forecastData?.icon} alt={forecastData?.iconPhrase} />
+          <span className="temp">{forecastData?.temperature } °C</span>
 
-      {/* Weather desc */}
-      <Typography sx={{fontFamily: "'Quicksand', sans-serif"}} mt={3} mb={3}>
-          {forecastData?.phrase}. The high will be {forecastData?.maxTemperature} °C.
-      </Typography>
-
-      {/* Additional weather data */}
-      <Stack direction='row' justifyContent='space-between' mt={2}>
-        {additionalData.map((item) => (
-          <Box key={item.title}>
-            <Box sx={{display: 'flex', alignItems: 'center', gap: '4px'}}>
-              <span className="title">{item.title}</span>
-              {item.icon}
-            </Box>
-            <span className="value">{item.value}</span>
+          <Box pl='15px'>
+            <span className="phrase">{forecastData?.iconPhrase}</span>
+            <span>Feels like {forecastData?.realFeelTemp} °C</span>
           </Box>
-        ))}
-        
-      </Stack>
+          
+        </Stack>
+
+        {/* Weather desc */}
+        <Typography sx={{fontFamily: "'Quicksand', sans-serif"}} mt={3} mb={3}>
+            {forecastData?.phrase}. The high will be {forecastData?.maxTemperature} °C.
+        </Typography>
+
+        {/* Additional weather data */}
+        <Stack direction='row' justifyContent='space-between' mt={2}>
+          {additionalData.map((item) => (
+            <Box key={item.title}>
+              <Box sx={{display: 'flex', alignItems: 'center', gap: '4px'}}>
+                <span className="title">{item.title}</span>
+                {item.icon}
+              </Box>
+              <span className="value">{item.value}</span>
+            </Box>
+          ))}
+          
+        </Stack>
+      </Box>
     </Box>
+    
   )
 }

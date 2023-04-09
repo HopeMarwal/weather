@@ -1,0 +1,43 @@
+@import './var';
+
+.forecastCard {
+  color: #fff;
+  background-color: $bg-transparent;
+  border-radius: 5px;
+  padding: 10px;
+  opacity: 0.85;
+  &.selected {
+    opacity: 1;
+    min-width: 270px;
+    background-color: hsla(0, 0%, 100%, 0.15);
+  }
+  > p {
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  img {
+    width: 50px;
+    object-fit: cover;
+  }
+  .show {
+    span {
+      font-size: 14px;
+      font-weight: 600;
+    }
+  }
+  .options {
+    font-size: 11px;
+    text-align: right;
+  }
+  .add_info {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 3px;
+    font-size: 12px;
+  }
+  .hide {
+    display: none;
+  }
+}

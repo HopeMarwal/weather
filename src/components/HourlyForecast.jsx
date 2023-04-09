@@ -5,7 +5,6 @@ import '../assets/style/hourly.scss';
 //Components
 import HourlyCard from './HourlyCard'
 
-
 const accuWeatherToken = 'slIlACVHV0hMvoQA15SWVvGjN2B2yCEy'
 
 export default function HourlyForecast({ dataKey }) {

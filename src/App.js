@@ -48,8 +48,10 @@ function App() {
 
       {/* Hourly weather forecast */}
       {key && <HourlyForecast dataKey={key} /> }
-      <Forecast />
-    </div>
+
+      {/*5 day Forecast */}
+      {key && <Forecast dataKey={key} />}
+    </div> 
   );
 }
 

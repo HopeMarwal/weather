@@ -1,10 +1,10 @@
 //MUI
-import { Stack, Box, Select, TextField, MenuItem, FormControl } from "@mui/material"
+import { Stack, Box, Select, MenuItem, Typography } from "@mui/material"
 import SearchIcon from '@mui/icons-material/Search';
 //Style
 import '../assets/style/heading.scss'
 
-export default function Heading({ unit, setUnit}) {
+export default function Heading({ unit, setUnit, currentZone, setCurrentZone}) {
   return (
     <header>
       <Stack
@@ -24,6 +24,9 @@ export default function Heading({ unit, setUnit}) {
           <input placeholder="Search for location"/>
           <SearchIcon fill="#ebebeb" sx={{ fill: '#bebebe'}} />
         </Box>
+        <Typography fontFamily="'Quicksand', sans-serif" color='#ebebeb'>
+          {currentZone.city}, {currentZone.region}
+        </Typography>
         <Select
           className="select"
           size='small'

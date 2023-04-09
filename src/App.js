@@ -10,15 +10,17 @@ const accuWeatherToken = 'slIlACVHV0hMvoQA15SWVvGjN2B2yCEy'
 const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug", "Sep", "Oct", "Nov", "Dec"];
 
 function App() {
-  const [forecastData, setForecastData] = useState({})
+  const [forecastData, setForecastData] = useState(null)
   const [apiData, setApiData] = useState(null)
   const [unit, setUnit] = useState('C')
-
+  const [currentZone, setCurrentZone] = useState(null)
+ 
   useEffect(() => {
     const fetchAPI = async () => {
       //Request API coord
       const ipRequest = await fetch(`https://ipinfo.io/json?token=${ipToken}`)
       const jsonIpResponse = await ipRequest.json()
+      setCurrentZone({city: jsonIpResponse.city, region: jsonIpResponse.region})
       setApiData(jsonIpResponse)
 
        //Request location
@@ -42,7 +44,13 @@ function App() {
     const today = new Date()
     const hour = today.getHours()
 
-    let iconId = hour > 18 || hour < 4 ? data.Night.Icon : data.Day.Icon
+    const sunset = new Date(data.Sun.Set)
+    const sunsetHour = sunset.getHours()
+
+    const sunrise = new Date(data.Sun.Rise)
+    const sunriseHour = sunrise.getHours()
+
+    let iconId = hour > sunsetHour || hour < sunriseHour ? data.Night.Icon : data.Day.Icon
     let icon;
 
     for(let i = 1; i < weatherIcons.length; i++) {
@@ -52,8 +60,11 @@ function App() {
     }
 
     const forecast = {
+      realFeelTemp: hour > sunsetHour || hour < sunriseHour ? data.RealFeelTemperature.Minimum.Value : data.RealFeelTemperature.Maximum.Value,
       temperature: Math.round((data.Temperature.Minimum.Value + data.Temperature.Maximum.Value)/2),
+      phrase: hour > sunsetHour || hour < sunriseHour ? data.Night.LongPhrase : data.Day.LongPhrase,
       icon: icon,
+      iconPhrase: hour > sunsetHour || hour < sunriseHour ? data.Night.IconPhrase : data.Day.IconPhrase
     }
 
     setForecastData({...data, forecast})
@@ -67,8 +78,16 @@ function App() {
         5 day Forecast 
         React Charts Graph ? 
       */}
-      <Heading unit={unit} setUnit={setUnit} />
-      <Main />
+      { currentZone && 
+      <Heading
+        unit={unit}
+        setUnit={setUnit}
+        currentZone={currentZone}
+        setCurrentZone={setCurrentZone}
+      />
+      }
+      
+      {forecastData && <Main data={forecastData} /> }
       <Forecast />
     </div>
   );

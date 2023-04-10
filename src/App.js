@@ -19,6 +19,7 @@ function App() {
       //Request API coord
       const ipRequest = await fetch(`https://ipinfo.io/json?token=${ipToken}`)
       const jsonIpResponse = await ipRequest.json()
+      console.log(jsonIpResponse)
       setCurrentZone({city: jsonIpResponse.city, region: jsonIpResponse.region})
 
        //Request location
@@ -37,10 +38,10 @@ function App() {
       {/* Heading (search box, C or F) */}
       { currentZone && 
       <Heading
+        setKey={setKey}
         unit={unit}
         setUnit={setUnit}
         currentZone={currentZone}
-        setCurrentZone={setCurrentZone}
       />
       }
       {/* Main weather */}

@@ -13,6 +13,41 @@ header {
       color: $gray-clr;
     }
   }
+  .locations {
+    border-top: 1px solid #ccc;
+    position: absolute;
+    top: 33px;
+    left: 0;
+    background: #f7f7f7f8;
+    color: $gray-clr;
+    width: 354px;
+    padding: 10px;
+    z-index: 10;
+    display: none;
+    &.open {
+      display: flex;
+    }
+    p {
+      margin-bottom: 5px;
+      font-size: 14px;
+      padding: 5px;
+      border-bottom: 1px solid #ccc;
+      transition: all 0.1s linear;
+      &:last-child {
+        border: none;
+      }
+      &:hover {
+        cursor: pointer;
+        color: #000000;
+        transform: scale(1.01);
+      }
+    }
+  }
+  .close_icon {
+    top: 5px;
+    right: 5px;
+    position: absolute;
+  }
   .select {
     border: none;
     outline: none;

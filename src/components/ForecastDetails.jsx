@@ -4,42 +4,39 @@ import '../assets/style/detail.scss'
 import { Box, Stack } from '@mui/material'
 //Icons
 import { BsSun } from 'react-icons/bs';
-import moonCircle from '../assets/img/detail/moonCircle.svg'
-import moonrise from '../assets/img/detail/moonrise.svg'
-import moonset from '../assets/img/detail/moonset.svg'
-import sunCircle from '../assets/img/detail/sunCircle.svg'
-import sunrise from '../assets/img/detail/sunrise.svg'
-import sunset from '../assets/img/detail/sunset.svg'
+import { icons } from '../assets/img/detail/detailIcons'
 import {WiMoonAltWaningGibbous5} from 'react-icons/wi'
 
 
-
 export default function ForecastDetails({ data }) {
-  const sunriseD = (new Date(data.Sun.Rise)).toLocaleTimeString().slice(0,5)
-  const sunsetD = (new Date(data.Sun.Set)).toLocaleTimeString().slice(0,5)
-  const moonriseD = (new Date(data.Moon.Rise)).toLocaleTimeString().slice(0,5)
-  const moonsetD = (new Date(data.Moon.Set)).toLocaleTimeString().slice(0,5)
 
   const sunActiveTime = () => {
-    const sun = new Date(data.Sun.Set) - new Date(data.Sun.Rise)
-    const hours = sun / ( 1000*60*60 )
-    const clearMin = ((hours - Math.floor(hours))*60).toFixed()
-    return `${ Math.floor(hours)} h ${clearMin} min`
+    if( data.Sun.Set && data.Sun.Rise) {
+      const sun = new Date(data.Sun.Set) - new Date(data.Sun.Rise)
+      const hours = sun / ( 1000*60*60 )
+      const clearMin = ((hours - Math.floor(hours))*60).toFixed()
+      return `${ Math.floor(hours)} h ${clearMin} min`
+    } else {
+      return '-'
+    }
+    
   }
   
   const moonActiveTime = () => {
-    const moon = new Date(data.Moon.Set) - new Date(data.Moon.Rise)
-    const hours = moon / ( 1000*60*60 )
-    const clearMin = ((hours - Math.floor(hours))*60).toFixed()
-    return `${ Math.floor(hours)} h ${clearMin} min`
+    if(data.Moon.Set && data.Moon.Rise) {
+      const moon = new Date(data.Moon.Set) - new Date(data.Moon.Rise)
+      const hours = moon / ( 1000*60*60 )
+      const clearMin = ((hours - Math.floor(hours))*60).toFixed()
+      return `${ Math.floor(hours)} h ${clearMin} min`
+    } else {
+      return '-'
+    }
   }
 
 
   return ( 
     <Box className='forecastDetails'>
-      <Box 
-
-      >
+      <Box>
         <p className='title'>More details</p>
         <hr />
         <Stack>
@@ -65,22 +62,22 @@ export default function ForecastDetails({ data }) {
             <Stack direction='row' width='280px' justifyContent='space-between'>
               {/* Sunrise */}
               <Box textAlign='center'>
-                <img src={sunrise} alt='sunrise' />
+                <img src={icons.sunrise} alt='sunrise' />
                 <p>Sunrise</p>
-                <span>{sunriseD}</span>
+                <span>{data.Sun.Rise ? data.Sun.Rise.slice(11,16) : '-'}</span>
               </Box>
 
               {/* Sun circle */}
               <Box className='circle_wrapper'>
-                <img className='circle' src={sunCircle} alt='sun circle phase'/>
+                <img className='circle' src={icons.sunCircle} alt='sun circle phase'/>
                 <span>{sunActiveTime()}</span>
               </Box>
 
               {/* Sunset */}
               <Box textAlign='center'>
-                <img src={sunset} alt='sunrise' />
+                <img src={icons.sunset} alt='sunrise' />
                 <p>Sunset</p>
-                <span>{sunsetD}</span>
+                <span>{data.Sun.Set ? data.Sun.Set.slice(11,16) : '-'}</span>
               </Box>
             </Stack>
 
@@ -106,22 +103,22 @@ export default function ForecastDetails({ data }) {
             <Stack direction='row' width='280px' justifyContent='space-between'>
               {/* Moonrise */}
               <Box textAlign='center'>
-                <img src={moonrise} alt='moonrise' />
+                <img src={icons.moonrise} alt='moonrise' />
                 <p>Moonrise</p>
-                <span>{moonriseD}</span>
+                <span>{data.Moon.Rise ? data.Moon.Rise.slice(11,16) : '-'}</span>
               </Box>
 
               {/* Moon circle */}
               <Box className='circle_wrapper'>
-                <img className='circle' src={moonCircle} alt='sun circle phase'/>
+                <img className='circle' src={icons.moonCircle} alt='sun circle phase'/>
                 <span>{moonActiveTime()}</span>
               </Box>
 
               {/* Moonset */}
               <Box textAlign='center'>
-                <img src={moonset} alt='moonrise' />
+                <img src={icons.moonset} alt='moonrise' />
                 <p>Moonset</p>
-                <span>{moonsetD}</span>
+                <span>{data.Moon.Set ? data.Moon.Set.slice(11,16) : '-'}</span>
               </Box>
             </Stack>
 

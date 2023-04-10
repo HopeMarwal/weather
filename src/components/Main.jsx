@@ -87,7 +87,7 @@ export default function Main({ dataKey }) {
     let isNight = hour > sunsetHour || hour < sunriseHour
 
     let iconId = isNight ? data.Night.Icon : data.Day.Icon
-    let icon = weatherIcons.find(el => el.id == iconId)
+    let icon = weatherIcons.find(el => el.id === iconId)
 
     //Create weather object
     const weather = {

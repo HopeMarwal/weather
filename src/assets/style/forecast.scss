@@ -10,6 +10,18 @@
     opacity: 1;
     min-width: 270px;
     background-color: hsla(0, 0%, 100%, 0.15);
+    position: relative;
+    &:after {
+      content: '';
+      width: 0; 
+      height: 0; 
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-top: 7px solid hsla(0, 0%, 100%, 0.15);
+      position: absolute;
+      left: 50%;
+      top: 100%;
+    }
   }
   > p {
     margin-bottom: 10px;

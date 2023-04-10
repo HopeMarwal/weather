@@ -4,6 +4,7 @@ import { Box, Stack } from '@mui/material'
 import ForecastCard from './ForecastCard'
 //Style
 import '../assets/style/forecast.scss'
+import ForecastDetails from './ForecastDetails'
 
 const accuWeatherToken = 'slIlACVHV0hMvoQA15SWVvGjN2B2yCEy'
 export default function Forecast({ dataKey}) {
@@ -39,6 +40,8 @@ export default function Forecast({ dataKey}) {
         }
       </Stack>
       {/* 5 days forecast selected details */}
+      {forecast && <ForecastDetails data={forecast[selected]} />}
+      {/* transfer through prop data=forecast[selected] */}
     </Box>
   )
 }

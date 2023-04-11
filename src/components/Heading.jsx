@@ -4,7 +4,7 @@ import SearchIcon from '@mui/icons-material/Search';
 //Style
 import '../assets/style/heading.scss'
 //React hooks
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 //Icons
 import { AiOutlineClose } from 'react-icons/ai'
 //Axios
@@ -19,6 +19,10 @@ export default function Heading({ unit, setUnit, currentZone, setKey}) {
 
   const regionRender = selectedRegion ? `${selectedRegion.city}, ${selectedRegion.region}`
                                       : `${currentZone.city}, ${currentZone.region}`
+
+  useEffect(() => {
+    setSelectedRegion(null)
+  }, [currentZone])
 
   const handleChange = async (e) => {
     setInputValue(e.target.value)
@@ -48,9 +52,9 @@ export default function Heading({ unit, setUnit, currentZone, setKey}) {
         position='relative'
       >
         {/* Locations container */}
-        <Stack className={`${isModalOpen && locations.length > 0 && 'open'} locations`}>
+        <Stack className={`${isModalOpen && locations?.length > 0 && 'open'} locations`}>
           <AiOutlineClose className="close_icon" onClick={() => setIsModalOpen(false)} />
-            { locations.length > 0 && locations.map((item) =>(
+            { locations?.length > 0 && locations.map((item) =>(
               <p key={item.id} onClick={() => handleClick(item.lat, item.lon ,item.name, item.region)}>
               {item.name}, {item.region}, {item.country}
             </p>

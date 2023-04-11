@@ -1,5 +1,5 @@
 @import './var';
-@keyframes gradient {
+@keyframes horizontal {
   0% {
       background-position: 0% 0%;
   }
@@ -10,13 +10,68 @@
       background-position: 0% 0%;
   }
 }
+@keyframes vertical {
+  0% {
+      background-position: 0% 0%;
+  }
+  50% {
+      background-position: 0% 100%;
+  }
+  100% {
+      background-position: 0% 0%;
+  }
+}
 
 .main {
   font-family: $font-main !important;
   color: #fff;
-  background: url('../img/bg/partlysunny_day.webp') repeat;
+  background-repeat: no-repeat;
   background-size: 200% 200%;
-  animation: gradient 60s linear infinite;
+  object-fit: cover;
+  animation: horizontal 60s linear infinite;
+  &.fog {
+    background-image: url('../img//bg/fog.jpg');
+  }
+  &.rain {
+    background-image: url('../img//bg//Rain\ 2.webp');
+    background-size: 100% 200%;
+    animation: vertical 60s linear infinite;
+  }
+  &.snow {
+    background-image: url('../img//bg/Snow\ 2.webp');
+    background-size:100%;
+  }
+  &.sleet {
+    background-image:linear-gradient(to bottom, rgba(245, 246, 252, 0.52), rgba(36, 78, 114, 0.815)), url('../img/bg/sleet.webp') ;
+    background-size: 100%;
+  }
+  &.thunder {
+    background-image: url('../img/bg/thunder.webp');
+    background-size: 100% 200%;
+    animation: vertical 60s linear infinite;
+  }
+  &.cloud_day {
+    background-image: url('../img/bg/Cloudy\ 2.webp');
+  }
+  &.cloud_night {
+    background-image: url('../img/bg/Cloudy\ 1.webp');
+
+  }
+  &.p_cloud_day {
+    background-image: url('../img/bg/partlysunny_day.webp')
+  }
+  &.p_cloud_night {
+    background-image: url('../img/bg/p_cloud_n.jpg');
+    background-size: 200% 300%;
+  }
+  &.clear {
+    background-image: url('../img/bg/Clear\ Night.webp');
+    background-size: 100%;
+  }
+  &.sunny {
+    background-image: url('../img/bg/Sunny.webp');
+    background-size: 100%;
+  }
   span {
     display: block;
   }

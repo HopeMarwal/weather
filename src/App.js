@@ -7,7 +7,7 @@ import HourlyForecast from "./components/HourlyForecast";
 //Style
 import './assets/style/style.scss'
 //Bg
-import { cloudyDay, clearNight, cloudyNight } from './assets/img/icons/weatherIcons'
+import { clear } from './assets/img/icons/weatherIcons'
 
 const ipToken = 'a532296877f3d8'
 
@@ -16,7 +16,7 @@ function App() {
   const [currentZone, setCurrentZone] = useState(null)
   const [key, setKey] = useState(null)
   const [bgPhrase, setBgPhrase]= useState('empty')
-  const [bgColor, setBgColor] = useState('#214d86')
+  const [bgColor, setBgColor] = useState('')
 
  
   useEffect(() => {
@@ -27,7 +27,6 @@ function App() {
       .then((res) => res.json())
       .then((res) => {
         setKey(res.loc)
-        console.log(res)
         setCurrentZone({city: res.city, region: res.region})
       })
       .catch((err) => console.log(err));
@@ -39,25 +38,17 @@ function App() {
 
 
   useEffect(() => {
-    const bg = () => {
-      let color;
-      if(cloudyDay.includes(bgPhrase)) {
-        color = 'linear-gradient(rgb(36, 77, 114) 0%, rgb(7, 33, 59) 100%)'
-      } else if(clearNight.includes(bgPhrase)) {
-        color = 'linear-gradient(rgb(40, 69, 110) 0%, rgb(20, 36, 68) 100%)'
-      } else if(cloudyNight.includes(bgPhrase)) {
-        color = 'linear-gradient(rgb(45, 65, 86) 0%, rgb(26, 28, 36) 100%)'
-      }
-      if(color) {
-        setBgColor(color)
-      }
+    let clName = 'cloud_day'
+    if(clear.includes(bgPhrase)) {
+      clName = 'clear_day'
     }
-    bg()
+    setBgColor(clName)
+      
   }, [bgPhrase])
 
   
   return (
-    <div className="App" style={{ background: `${bgColor}`}}>
+    <div className={`App ${bgColor}`}>
       {/* Heading (search box, C or F) */}
       { currentZone && 
       <Heading

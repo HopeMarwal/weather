@@ -32,7 +32,7 @@ export default function HourlyForecast({ dataKey }) {
     return () => {
       source.cancel()
     }
-  }, [dataKey])
+  }, [dataKey, hour, days])
 
   useEffect(() => {
     scroll.current.addEventListener("wheel", (evt) => {

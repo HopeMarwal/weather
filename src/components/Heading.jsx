@@ -7,8 +7,9 @@ import '../assets/style/heading.scss'
 import { useState } from 'react';
 //Icons
 import { AiOutlineClose } from 'react-icons/ai'
-
-const accuWeatherToken = 'slIlACVHV0hMvoQA15SWVvGjN2B2yCEy'
+//Axios
+import { searchOptions } from "../utils/fetchData";
+import axios from "axios";
 
 export default function Heading({ unit, setUnit, currentZone, setKey}) {
   const [inputValue, setInputValue] = useState('')
@@ -19,23 +20,23 @@ export default function Heading({ unit, setUnit, currentZone, setKey}) {
   const regionRender = selectedRegion ? `${selectedRegion.city}, ${selectedRegion.region}`
                                       : `${currentZone.city}, ${currentZone.region}`
 
-  const handleSearch = async (e) => {
-    //console.log(e.code)
-    if(e.code === 'Enter') {
-      const foundLocs = await fetch(`http://dataservice.accuweather.com/locations/v1/search?apikey=${accuWeatherToken}&q=${inputValue}%20&details=false`)
-      const foundLocsData = await foundLocs.json()
-      setLocations(foundLocsData.slice(0, 10))
+  const handleChange = async (e) => {
+    setInputValue(e.target.value)
+    await axios.request({...searchOptions, params: { q: e.target.value}}).then(function (response) {
+      setLocations(response.data)
       setIsModalOpen(true)
-      setInputValue('')
-    }
+    }).catch(function (error) {
+      console.error(error);
+    });
   }
 
-  const handleClick = (key, city, region) => {
-    console.log(key)
-    setKey(key)
+  const handleClick = (lat, lon ,city, region) => {
+    setKey(`${lat}, ${lon}`)
     const data = {city: city, region: region}
     setSelectedRegion(data)
+    setInputValue('')
     setIsModalOpen(false)
+    setLocations(null)
   }
   return (
     <header>
@@ -47,15 +48,13 @@ export default function Heading({ unit, setUnit, currentZone, setKey}) {
         position='relative'
       >
         {/* Locations container */}
-        <Stack className={`${isModalOpen && 'open'} locations`}>
+        <Stack className={`${isModalOpen && locations.length > 0 && 'open'} locations`}>
           <AiOutlineClose className="close_icon" onClick={() => setIsModalOpen(false)} />
-          {
-            locations?.map((item) => (
-              <p key={item.Key} onClick={() => handleClick(item.Key, item.EnglishName, item.AdministrativeArea.EnglishName)}>
-                {item.EnglishName}, {item.AdministrativeArea.EnglishName}, {item.Country.EnglishName}
-              </p>
-            ))
-          }
+            { locations.length > 0 && locations.map((item) =>(
+              <p key={item.id} onClick={() => handleClick(item.lat, item.lon ,item.name, item.region)}>
+              {item.name}, {item.region}, {item.country}
+            </p>
+            ))}
         </Stack>
 
         {/* Search */}
@@ -69,9 +68,9 @@ export default function Heading({ unit, setUnit, currentZone, setKey}) {
         >
           <input
             value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={handleChange}
             placeholder="Search for location"
-            onKeyUp={handleSearch}
+            //onKeyUp={handleSearch}
           />
           <SearchIcon fill="#ebebeb" sx={{ fill: '#bebebe'}} />
         </Box>
@@ -95,5 +94,5 @@ export default function Heading({ unit, setUnit, currentZone, setKey}) {
         </Select>
       </Stack>
     </header>
-  )
+  ) 
 }

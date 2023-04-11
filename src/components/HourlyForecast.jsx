@@ -4,25 +4,34 @@ import { Box, Stack } from '@mui/material';
 import '../assets/style/hourly.scss';
 //Components
 import HourlyCard from './HourlyCard'
-
-const accuWeatherToken = 'slIlACVHV0hMvoQA15SWVvGjN2B2yCEy'
+//Axios
+import { weatherHourlyOptions } from "../utils/fetchData";
+import axios from "axios";
 
 export default function HourlyForecast({ dataKey }) {
   const [hourForecast, setHourlyForecast] = useState(null)
   const scroll = useRef()
+  const hour = (new Date()).getHours()
+  const days = hour > 11 ? 2 : 1
 
   useEffect(() => {
-    const fetchAPI = async () => {
-      //Request forecast
-      const forecastRequest = await fetch(`http://dataservice.accuweather.com/forecasts/v1/hourly/12hour/${dataKey}?apikey=${accuWeatherToken}&metric=true`)
-      const jsonForecastRes = await forecastRequest.json()
-      setHourlyForecast(jsonForecastRes)
-      
-      //TO DO: clean up function
+    //Request forecast
+    const source = axios.CancelToken.source()
+
+    const fetchDataCityWeather = async(q) => {
+      await axios.request({...weatherHourlyOptions, params: { q: q, days: days}}, {cancelToken: source.token}).then(function (response) {
+        const firstArr = response.data.forecast.forecastday[0].hour.slice(hour, 24)
+        const secondArr = response.data.forecast.forecastday[1].hour.slice(0, hour)
+        setHourlyForecast(firstArr.concat(secondArr))
+      }).catch(function (error) {
+        console.error(error);
+      });
     }
+    fetchDataCityWeather(dataKey)
 
-    fetchAPI()
-
+    return () => {
+      source.cancel()
+    }
   }, [dataKey])
 
   useEffect(() => {
@@ -54,9 +63,7 @@ export default function HourlyForecast({ dataKey }) {
 
         {/* Map hourlyForecast data */}
         <Stack ref={scroll} className='horizontal-scroll-bar'>
-          {
-            hourForecast?.map((item, index) => (<HourlyCard key={index} data={item}/>))
-          }
+          { hourForecast?.map((item, index) => (<HourlyCard key={index} data={item}/>)) }
         </Stack>
 
       </Box>

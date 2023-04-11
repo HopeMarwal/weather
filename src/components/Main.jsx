@@ -1,16 +1,17 @@
 import { useState, useEffect } from 'react'
 //MUI
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 //style
 import '../assets/style/main.scss'
 //icons
-import { MdWindPower, MdAir, MdGrass } from 'react-icons/md';
-import { TbUvIndex, TbCloudRain, TbSunrise, TbSunset } from 'react-icons/tb'
-import {weatherIcons} from '../assets/img/icons/weatherIcons';
+import { MdAir, MdOutlineVisibility } from 'react-icons/md';
+import { WiHumidity, WiBarometer } from 'react-icons/wi'
+import { TbUvIndex } from 'react-icons/tb'
+//Axios
+import { weatherOptions } from "../utils/fetchData";
+import axios from "axios";
 
-const accuWeatherToken = 'slIlACVHV0hMvoQA15SWVvGjN2B2yCEy'
-
-export default function Main({ dataKey }) {
+export default function Main({ dataKey, setBgPhrase }) {
   
   const [forecastData, setForecastData] = useState(null)
   const date = new Date()
@@ -19,96 +20,51 @@ export default function Main({ dataKey }) {
   const additionalData = [
     {
       title: 'Wind',
-      value: forecastData?.wind + 'km/h',
-      icon: <MdWindPower size='1.2em' />
+      value: forecastData?.wind_kph + 'km/h',
+      icon: <MdAir size='1.2em' />
     },
     {
-      title: 'Air quality',
-      value: forecastData?.airQuality,
-      icon: <MdAir size='1.2em'/>
+      title: 'Visibility',
+      value: forecastData?.vis_km + 'km',
+      icon: <MdOutlineVisibility size='1.1em'/>
     },
     {
-      title: 'Ragweed',
-      value: forecastData?.ragweed,
-      icon: <MdGrass size='1.2em' />
+      title: 'Pressure',
+      value: forecastData?.pressure_mb + 'mb',
+      icon: <WiBarometer size='1.3em' />
     },
     {
-      title: 'Rain',
-      value: forecastData?.rainProbability + '%',
-      icon: <TbCloudRain size='1.2em' />
+      title: 'Humidity',
+      value: forecastData?.humidity + '%',
+      icon: <WiHumidity size='1.2em' />
     },
     {
       title: 'UVIndex',
-      value: forecastData?.uvIndex,
+      value: forecastData?.uv,
       icon: <TbUvIndex size='1.2em' />
-    },
-    {
-      title: 'Sunrise',
-      value: forecastData?.sunrise,
-      icon: <TbSunrise size='1.2em' />
-    },
-    {
-      title: 'Sunset',
-      value: forecastData?.sunset,
-      icon: <TbSunset size='1.2em' />
     }
+
   ]
 
   //Fetch weather data
   useEffect(() => {
-    const fetchAPI = async () => {
-       //Request forecast
-       const forecastRequest = await fetch(`http://dataservice.accuweather.com/forecasts/v1/daily/1day/${dataKey}?apikey=${accuWeatherToken}&metric=true&details=true`)
-       const jsonForecastRes = await forecastRequest.json()
- 
-       // eslint-disable-next-line
-       createForecastObject(jsonForecastRes.DailyForecasts[0])
-
-       //TO DO: clean up function
+    
+    const source = axios.CancelToken.source()
+    const fetchDataCityWeather = async(q) => {
+      await axios.request({...weatherOptions, params: { q: q}}, {cancelToken: source.token}).then(function (response) {
+        setForecastData(response.data.current)
+        setBgPhrase(response.data.current.condition.text)
+      }).catch(function (error) {
+        console.error(error);
+      });
     }
+    fetchDataCityWeather(dataKey)
 
-    fetchAPI()
-
+    return () => {
+      source.cancel()
+    }
   }, [dataKey])
 
-  const createForecastObject = (data) => {
-    //Get current hour
-    const today = new Date()
-    const hour = today.getHours()
-
-    //Get sunset hour
-    const sunset = new Date(data.Sun.Set)
-    const sunsetHour = sunset.getHours()
-
-    //Git sunrise hour
-    const sunrise = new Date(data.Sun.Rise)
-    const sunriseHour = sunrise.getHours()
-
-    let isNight = hour > sunsetHour || hour < sunriseHour
-
-    let iconId = isNight ? data.Night.Icon : data.Day.Icon
-    let icon = weatherIcons.find(el => el.id === iconId)
-
-    //Create weather object
-    const weather = {
-      realFeelTemp: isNight ? data.RealFeelTemperature.Minimum.Value : data.RealFeelTemperature.Maximum.Value,
-      maxTemperature: data.Temperature.Maximum.Value,
-      temperature: Math.round((data.Temperature.Minimum.Value + data.Temperature.Maximum.Value)/2),
-      phrase: isNight ? data.Night.LongPhrase : data.Day.LongPhrase,
-      icon: icon.value,
-      iconPhrase: isNight ? data.Night.IconPhrase : data.Day.IconPhrase,
-      wind:  isNight ? data.Night.Wind.Speed.Value : data.Day.Wind.Speed.Value,
-      rainProbability: isNight? data.Night.RainProbability : data.Day.RainProbability,
-      airQuality: data.AirAndPollen[0].Category,
-      ragweed:  data.AirAndPollen[3].Category,
-      uvIndex:  data.AirAndPollen[5].Category,
-      sunrise: sunrise.toLocaleTimeString().slice(0,5),
-      sunset: sunset.toLocaleTimeString().slice(0,5)
-    }
-
-    setForecastData(weather)
-  }
-  
   return (
     <Box p='0 10px'>
       <Box 
@@ -127,20 +83,15 @@ export default function Main({ dataKey }) {
           gap='10px'
           sx={{fontFamily: "'Quicksand', sans-serif"}}
         >
-          <img src={forecastData?.icon} alt={forecastData?.iconPhrase} />
-          <span className="temp">{forecastData?.temperature } °C</span>
+          <img src={forecastData?.condition.icon} alt={forecastData?.condition.text} />
+          <span className="temp">{forecastData?.temp_c } °C</span>
 
           <Box pl='15px'>
-            <span className="phrase">{forecastData?.iconPhrase}</span>
-            <span>Feels like {forecastData?.realFeelTemp} °C</span>
+            <span className="phrase">{forecastData?.condition.text}</span>
+            <span>Feels like {forecastData?.feelslike_c} °C</span>
           </Box>
           
         </Stack>
-
-        {/* Weather desc */}
-        <Typography sx={{fontFamily: "'Quicksand', sans-serif"}} mt={3} mb={3}>
-            {forecastData?.phrase}. The high will be {forecastData?.maxTemperature} °C.
-        </Typography>
 
         {/* Additional weather data */}
         <Stack direction='row' justifyContent='space-between' mt={2}>

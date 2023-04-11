@@ -4,36 +4,10 @@ import '../assets/style/detail.scss'
 import { Box, Stack } from '@mui/material'
 //Icons
 import { BsSun } from 'react-icons/bs';
-import { icons } from '../assets/img/detail/detailIcons'
-import {WiMoonAltWaningGibbous5} from 'react-icons/wi'
-
+import { icons, moonPhase } from '../assets/img/detail/detailIcons'
 
 export default function ForecastDetails({ data }) {
-
-  const sunActiveTime = () => {
-    if( data.Sun.Set && data.Sun.Rise) {
-      const sun = new Date(data.Sun.Set) - new Date(data.Sun.Rise)
-      const hours = sun / ( 1000*60*60 )
-      const clearMin = ((hours - Math.floor(hours))*60).toFixed()
-      return `${ Math.floor(hours)} h ${clearMin} min`
-    } else {
-      return '-'
-    }
-    
-  }
-  
-  const moonActiveTime = () => {
-    if(data.Moon.Set && data.Moon.Rise) {
-      const moon = new Date(data.Moon.Set) - new Date(data.Moon.Rise)
-      const hours = moon / ( 1000*60*60 )
-      const clearMin = ((hours - Math.floor(hours))*60).toFixed()
-      return `${ Math.floor(hours)} h ${clearMin} min`
-    } else {
-      return '-'
-    }
-  }
-
-
+  const renderMoonPhase = moonPhase.find(el => el.title === data.astro.moon_phase)
   return ( 
     <Box className='forecastDetails'>
       <Box>
@@ -54,7 +28,7 @@ export default function ForecastDetails({ data }) {
               <BsSun size='1.5em' className='icon' />
               <Stack>
                 <p>UV index</p>
-                <span>{data.AirAndPollen[5].Value} · {data.AirAndPollen[5].Category}</span>
+                <span>{data.day.uv}</span>
               </Stack>
             </Stack>
 
@@ -64,20 +38,19 @@ export default function ForecastDetails({ data }) {
               <Box textAlign='center'>
                 <img src={icons.sunrise} alt='sunrise' />
                 <p>Sunrise</p>
-                <span>{data.Sun.Rise ? data.Sun.Rise.slice(11,16) : '-'}</span>
+                <span>{data.astro.sunrise}</span>
               </Box>
 
               {/* Sun circle */}
               <Box className='circle_wrapper'>
                 <img className='circle' src={icons.sunCircle} alt='sun circle phase'/>
-                <span>{sunActiveTime()}</span>
               </Box>
 
               {/* Sunset */}
               <Box textAlign='center'>
                 <img src={icons.sunset} alt='sunrise' />
                 <p>Sunset</p>
-                <span>{data.Sun.Set ? data.Sun.Set.slice(11,16) : '-'}</span>
+                <span>{data.astro.sunset}</span>
               </Box>
             </Stack>
 
@@ -92,10 +65,10 @@ export default function ForecastDetails({ data }) {
 
             {/* Moon details */}
             <Stack direction='row' alignItems='center' gap='15px'>
-              <WiMoonAltWaningGibbous5 size='1.5em' className='icon' />
+              <img src={renderMoonPhase.value} className='icon' alt={data.astro.moon_phase} />
               <Stack>
                 <p>Moon Phase</p>
-                <span>{data.Moon.Phase}</span>
+                <span>{data.astro.moon_phase}</span>
               </Stack>
             </Stack>
 
@@ -105,20 +78,19 @@ export default function ForecastDetails({ data }) {
               <Box textAlign='center'>
                 <img src={icons.moonrise} alt='moonrise' />
                 <p>Moonrise</p>
-                <span>{data.Moon.Rise ? data.Moon.Rise.slice(11,16) : '-'}</span>
+                <span>{data.astro.moonrise}</span>
               </Box>
 
               {/* Moon circle */}
               <Box className='circle_wrapper'>
                 <img className='circle' src={icons.moonCircle} alt='sun circle phase'/>
-                <span>{moonActiveTime()}</span>
               </Box>
 
               {/* Moonset */}
               <Box textAlign='center'>
                 <img src={icons.moonset} alt='moonrise' />
                 <p>Moonset</p>
-                <span>{data.Moon.Set ? data.Moon.Set.slice(11,16) : '-'}</span>
+                <span>{data.astro.moonset}</span>
               </Box>
             </Stack>
 

@@ -82,3 +82,7 @@ export const weatherIcons = [
   { id: 44, value: MostlyCloudySnowNight },
 
 ]
+
+export const cloudyDay = ['Mostly Cloudy', 'Cloudy', 'Dreary', 'Fog', 'Showers', 'Mostly Cloudy Showers', 'Partly Sunny Showers', 'T-Storms', 'Mostly Cloudy T-Storms', 'Rain', 'Flurries', 'Freezing Rain', 'Mostly Cloudy Snow', 'Ice', 'Sleet', 'Rain Snow']
+export const clearNight = ['Intermittent Clouds Night', 'Hazy Moon light', 'Partly Cloudy T-Storms', 'Clear']
+export const cloudyNight =['Mostly Cloudy Snow Night', 'Mostly Cloudy Flurries Night', 'Mostly Cloudy T-Storms Night', 'Mostly Cloudy Snow Night']

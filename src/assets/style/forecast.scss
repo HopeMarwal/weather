@@ -41,6 +41,9 @@
   .options {
     font-size: 11px;
     text-align: right;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
   }
   .add_info {
     display: flex;

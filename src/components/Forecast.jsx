@@ -5,23 +5,30 @@ import ForecastCard from './ForecastCard'
 //Style
 import '../assets/style/forecast.scss'
 import ForecastDetails from './ForecastDetails'
+//Axios
+import { weatherHourlyOptions } from "../utils/fetchData";
+import axios from "axios";
 
-const accuWeatherToken = 'slIlACVHV0hMvoQA15SWVvGjN2B2yCEy'
+
 export default function Forecast({ dataKey}) {
   const [forecast, setForecast] = useState(null)
   const [selected, setSelected] = useState(0)
 
   useEffect(() => {
-    const fetchAPI = async () => {
-      //Request forecast
-      const forecastRequest = await fetch(`http://dataservice.accuweather.com/forecasts/v1/daily/5day/${dataKey}?apikey=${accuWeatherToken}&metric=true&details=true`)
-      const jsonForecastRes = await forecastRequest.json()
-      setForecast(jsonForecastRes.DailyForecasts)
-      
-      //TO DO: clean up function
-    }
+    const source = axios.CancelToken.source()
 
-    fetchAPI()
+    const fetchDataCityWeather = async(q) => {
+      await axios.request({...weatherHourlyOptions, params: { q: q, days: 5}}, {cancelToken: source.token}).then(function (response) {
+        setForecast(response.data.forecast.forecastday)
+      }).catch(function (error) {
+        console.error(error);
+      });
+    }
+    fetchDataCityWeather(dataKey)
+
+    return () => {
+      source.cancel()
+    }
 
   }, [dataKey])
   return (
@@ -41,7 +48,7 @@ export default function Forecast({ dataKey}) {
       </Stack>
       {/* 5 days forecast selected details */}
       {forecast && <ForecastDetails data={forecast[selected]} />}
-      {/* transfer through prop data=forecast[selected] */}
+     
     </Box>
   )
 }

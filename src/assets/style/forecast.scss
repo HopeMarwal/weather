@@ -8,7 +8,7 @@
   opacity: 0.85;
   &.selected {
     opacity: 1;
-    min-width: 270px;
+    flex: 1;
     background-color: hsla(0, 0%, 100%, 0.15);
     position: relative;
     &:after {
@@ -31,11 +31,17 @@
   img {
     width: 50px;
     object-fit: cover;
+    @include respond-to('small') {
+      width: 30px;
+    }
   }
   .show {
     span {
       font-size: 14px;
       font-weight: 600;
+      @include respond-to('small') {
+       font-size: 12px;
+      }
     }
   }
   .options {
@@ -44,6 +50,11 @@
     display: flex;
     justify-content: space-evenly;
     flex-direction: column;
+    @include respond-to('small') {
+      span {
+        font-size: 10px;
+      }
+    }
   }
   .add_info {
     display: flex;

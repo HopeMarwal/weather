@@ -128,19 +128,28 @@ export default function Main({ dataKey, setBgPhrase }) {
           sx={{fontFamily: "'Quicksand', sans-serif"}}
         >
           <img src={forecastData?.condition.icon} alt={forecastData?.condition.text} />
-          <span className="temp">{forecastData?.temp_c } °C</span>
+          <span className="temp">{forecastData?.temp_c }°</span>
 
           <Box pl='15px'>
             <span className="phrase">{forecastData?.condition.text}</span>
-            <span>Feels like {forecastData?.feelslike_c} °C</span>
+            <span>Feels like {forecastData?.feelslike_c}°</span>
           </Box>
           
         </Stack>
 
         {/* Additional weather data */}
-        <Stack direction='row' justifyContent='space-between' mt={2}>
+        <Stack
+          direction='row'
+          justifyContent='space-between'
+          mt={2}
+          flexWrap='wrap'
+          gap='10px'
+        >
           {additionalData.map((item) => (
-            <Box key={item.title}>
+            <Box
+              key={item.title}
+              width={{xs: 'calc(50% - 5px)', md: 'auto'}}
+            >
               <Box sx={{display: 'flex', alignItems: 'center', gap: '4px'}}>
                 <span className="title">{item.title}</span>
                 {item.icon}

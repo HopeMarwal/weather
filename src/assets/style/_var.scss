@@ -6,16 +6,13 @@ $bg-transparent: rgba(255, 255, 255, 0.122);
 $gray-clr: #666666;
 $font-main: 'Quicksand', sans-serif;
 
-//$bg-color-n-clear: linear-gradient(rgb(40, 69, 110) 0%, rgb(20, 36, 68) 100%);
-//$bg-color-n-cloudy: linear-gradient(rgb(45, 65, 86) 0%, rgb(26, 28, 36) 100%);
-//$bg-color-d-cloudy: linear-gradient(rgb(36, 77, 114) 0%, rgb(7, 33, 59) 100%);
 $bg-color-d-sunset: linear-gradient(rgb(174, 138, 144) -5.25%, rgb(32, 34, 85) 74.35%);
 
 
 $breakpoints: (
-  'x-small': 560px,
-  'small':  767px,
-  'medium': 992px,
+  'x-small': 350px,
+  'small':  560px,
+  'medium': 720px,
   'large':  1200px
 ) !default;
 

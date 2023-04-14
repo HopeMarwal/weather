@@ -20,9 +20,15 @@ export default function HourlyForecast({ dataKey }) {
 
     const fetchDataCityWeather = async(q) => {
       await axios.request({...weatherHourlyOptions, params: { q: q, days: days}}, {cancelToken: source.token}).then(function (response) {
-        const firstArr = response.data.forecast.forecastday[0].hour.slice(hour, 24)
-        const secondArr = response.data.forecast.forecastday[1].hour.slice(0, hour)
-        setHourlyForecast(firstArr.concat(secondArr))
+        let data;
+        if (days === 1) {
+          data = response.data.forecast.forecastday[0].hour.slice(hour, 24)
+        } else {
+          const firstArr = response.data.forecast.forecastday[0].hour.slice(hour, 24)
+          const secondArr = response.data.forecast.forecastday[1].hour.slice(0, hour)
+          data = firstArr.concat(secondArr)
+        }
+        setHourlyForecast(data)
       }).catch(function (error) {
         console.error(error);
       });

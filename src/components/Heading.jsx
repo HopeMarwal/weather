@@ -48,6 +48,7 @@ export default function Heading({ unit, setUnit, currentZone, setKey}) {
         direction='row'
         justifyContent='space-between'
         alignItems='center'
+        flexWrap='wrap'
         sx={{ maxWidth: '720px', margin: 'auto'}}
         position='relative'
       >
@@ -67,7 +68,9 @@ export default function Heading({ unit, setUnit, currentZone, setKey}) {
           alignItems: 'center',
           bgcolor: '#fff',
           borderRadius: '20px 20px 0 0',
-          padding: '5px 15px'
+          padding: '5px 15px',
+          width: {xs: '100%', md: 'auto'},
+          marginBottom: {xs: '8px', md: '0'}
         }}
         >
           <input
@@ -83,19 +86,15 @@ export default function Heading({ unit, setUnit, currentZone, setKey}) {
         </Typography>
 
         {/* Select unit */}
-        <Select
+        <select
           className="select"
           size='small'
           value={unit}
           onChange={(e) => setUnit(e.target.value)}
-          sx={{
-            height: '30px',
-            color: '#ebebeb'
-          }}
         >
-          <MenuItem value='C'>°C</MenuItem>
-          <MenuItem value='F'>°F</MenuItem>
-        </Select>
+          <option value='C'>°C</option>
+          <option value='F'>°F</option>
+        </select>
       </Stack>
     </header>
   ) 

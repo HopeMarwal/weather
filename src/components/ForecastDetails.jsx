@@ -5,6 +5,7 @@ import { Box, Stack } from '@mui/material'
 //Icons
 import { BsSun } from 'react-icons/bs';
 import { icons, moonPhase } from '../assets/img/detail/detailIcons'
+import { MdAir } from 'react-icons/md';
 
 export default function ForecastDetails({ data }) {
   const renderMoonPhase = moonPhase.find(el => el.title === data.astro.moon_phase)
@@ -24,7 +25,7 @@ export default function ForecastDetails({ data }) {
           >
 
             {/* UVindex */}
-            <Stack direction='row' alignItems='center' gap='15px'>
+            <Stack direction='row' alignItems='center' gap='15px' width='144px'>
               <BsSun size='1.5em' className='icon' />
               <Stack>
                 <p>UV index</p>
@@ -32,10 +33,19 @@ export default function ForecastDetails({ data }) {
               </Stack>
             </Stack>
 
+            {/* Wind */}
+            <Stack  direction='row' alignItems='center' gap='15px' >
+              <MdAir size='1.5em' className='icon' />
+              <Stack>
+                <p>Wind</p>
+                <span>{data.day.maxwind_kph} km/h</span>
+              </Stack>
+            </Stack>
+
             {/* Sun phase */}
             <Stack direction='row' width='280px' justifyContent='space-between'>
               {/* Sunrise */}
-              <Box textAlign='center'>
+              <Box textAlign='center' width='60px'>
                 <img src={icons.sunrise} alt='sunrise' />
                 <p>Sunrise</p>
                 <span>{data.astro.sunrise}</span>
@@ -47,7 +57,7 @@ export default function ForecastDetails({ data }) {
               </Box>
 
               {/* Sunset */}
-              <Box textAlign='center'>
+              <Box textAlign='center'  width='60px'>
                 <img src={icons.sunset} alt='sunrise' />
                 <p>Sunset</p>
                 <span>{data.astro.sunset}</span>
@@ -69,6 +79,15 @@ export default function ForecastDetails({ data }) {
               <Stack>
                 <p>Moon Phase</p>
                 <span>{data.astro.moon_phase}</span>
+              </Stack>
+            </Stack>
+
+             {/* Wind */}
+             <Stack  direction='row' alignItems='center' gap='15px'>
+              <MdAir size='1.5em' className='icon' />
+              <Stack>
+                <p>Wind</p>
+                <span>{data.hour[3].wind_kph} km/h</span>
               </Stack>
             </Stack>
 

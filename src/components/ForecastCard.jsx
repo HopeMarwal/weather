@@ -12,6 +12,7 @@ export default function ForecastCard({data, selected, setSelected, i}) {
   const monthDay = data.date.slice(8,10)
   const weatherMonth = month[data.date.slice(5,7) -1]
  
+  // eslint-disable-next-line
   const titleDay = today == monthDay ? 'Today' : weatherMonth + ` ` + monthDay
   
   return (
@@ -39,7 +40,7 @@ export default function ForecastCard({data, selected, setSelected, i}) {
             <span>{data.day.condition.text}</span>
             <Box className='add_info'>
               <TbDropletFilled />
-              <span>{data.day.daily_chance_of_rain}%</span>
+              <span>{data.day.avghumidity}%</span>
             </Box>
           </Box>
 
@@ -48,7 +49,7 @@ export default function ForecastCard({data, selected, setSelected, i}) {
             <span>{data.hour[3].condition.text}</span>
             <Box className='add_info'>
               <TbDropletFilled />
-              <span>{data.hour[3].chance_of_rain}%</span>
+              <span>{data.hour[3].humidity}%</span>
             </Box>
           </Box>
           

@@ -11,8 +11,11 @@ import { TbUvIndex } from 'react-icons/tb'
 //Axios
 import { weatherOptions } from "../utils/fetchData";
 import axios from "axios";
+//context
+import { useUnit } from "../context/unitContext";
 
 export default function Main({ dataKey, setBgPhrase }) {
+  const { unit } = useUnit()
   
   const [forecastData, setForecastData] = useState(null)
   const [clName, setClName] = useState('')
@@ -128,7 +131,7 @@ export default function Main({ dataKey, setBgPhrase }) {
           sx={{fontFamily: "'Quicksand', sans-serif"}}
         >
           <img src={forecastData?.condition.icon} alt={forecastData?.condition.text} />
-          <span className="temp">{forecastData?.temp_c }°</span>
+          <span className="temp">{unit === 'C' ? forecastData?.temp_c : forecastData?.temp_f}°</span>
 
           <Box pl='15px'>
             <span className="phrase">{forecastData?.condition.text}</span>

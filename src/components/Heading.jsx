@@ -10,8 +10,11 @@ import { AiOutlineClose } from 'react-icons/ai'
 //Axios
 import { searchOptions } from "../utils/fetchData";
 import axios from "axios";
+//context
+import { useUnit } from "../context/unitContext";
 
-export default function Heading({ unit, setUnit, currentZone, setKey}) {
+export default function Heading({ currentZone, setKey}) {
+  const {unit, setUnit} = useUnit()
   const [inputValue, setInputValue] = useState('')
   const [locations, setLocations] = useState(null)
   const [selectedRegion, setSelectedRegion] = useState(null)

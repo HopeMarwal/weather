@@ -2,10 +2,13 @@
 import { Box, Stack } from "@mui/material"
 //Icons
 import { TbDropletFilled } from 'react-icons/tb'
+//context
+import { useUnit } from "../context/unitContext";
 
 var month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug", "Sep", "Oct", "Nov", "Dec"];
 
 export default function ForecastCard({data, selected, setSelected, i}) {
+  const { unit } = useUnit()
   const currentDate = new Date()
   const today = currentDate.getDate()
 
@@ -23,13 +26,13 @@ export default function ForecastCard({data, selected, setSelected, i}) {
         <Box className='show'>
           <Box display='flex' alignItems='center' gap='5px' mb={1}>
             <img src={data.day.condition.icon} alt={data.day.condition.text}/>
-            <span>{data.day.avgtemp_c} °</span>
+            <span>{unit === 'C' ? data.day.avgtemp_c : data.day.avgtemp_f} °</span>
           </Box>
 
           {/* Night */}
           <Box display='flex' alignItems='center' gap='5px'>
             <img src={data.hour[3].condition.icon} alt={data.hour[3].condition.text}/>
-            <span>{data.hour[3].temp_c} °</span>
+            <span>{unit === 'C' ? data.hour[3].temp_c : data.hour[3].temp_f} °</span>
           </Box>
         </Box>
         

@@ -25,15 +25,24 @@
   .icon {
     opacity: 0.7;
     width: 25px;
+    @include respond-to('medium') {
+      width: 20px;
+    }
   }
   p {
     font-size: 12px;
     opacity: 0.7;
     margin: 3px 0;
+    @include respond-to('medium') {
+      font-size: 11px;
+    }
   }
   span {
     font-weight: 600;
     font-size: 13px;
+    @include respond-to('medium') {
+      font-size: 11px;
+    }
   }
   span {
     display: block;

@@ -18,14 +18,20 @@ export default function ForecastDetails({ data }) {
           {/* Sun details */}
           <Stack
             direction='row'
-            justifyContent='space-between'
-            p='10px 20px'
+            justifyContent={{xs: 'center', md: 'space-between'}}
+            p={{md: '10px', lg:'10px 20px'}}
             alignItems='center'
-            mb={3}
+            gap={{xs: '30px', md: '0'}}
+            flexWrap='wrap'
           >
 
             {/* UVindex */}
-            <Stack direction='row' alignItems='center' gap='15px' width='144px'>
+            <Stack
+              direction='row'
+              alignItems='center'
+              gap={{xs: '15px', md:'10px', lg: '15px'}}
+              width={{md: '119px', lg: '144px'}}
+            >
               <BsSun size='1.5em' className='icon' />
               <Stack>
                 <p>UV index</p>
@@ -34,7 +40,11 @@ export default function ForecastDetails({ data }) {
             </Stack>
 
             {/* Wind */}
-            <Stack  direction='row' alignItems='center' gap='15px' >
+            <Stack
+              direction='row'
+              alignItems='center'
+              gap={{xs: '15px',  md:'10px', lg: '15px'}}
+            >
               <MdAir size='1.5em' className='icon' />
               <Stack>
                 <p>Wind</p>
@@ -43,7 +53,11 @@ export default function ForecastDetails({ data }) {
             </Stack>
 
             {/* Sun phase */}
-            <Stack direction='row' width='280px' justifyContent='space-between'>
+            <Stack
+              direction='row'
+              width={{xs:'100%', md: '280px'}}
+              justifyContent={{xs: 'center', md: 'space-between'}}
+            >
               {/* Sunrise */}
               <Box textAlign='center' width='60px'>
                 <img src={icons.sunrise} alt='sunrise' />
@@ -57,24 +71,27 @@ export default function ForecastDetails({ data }) {
               </Box>
 
               {/* Sunset */}
-              <Box textAlign='center'  width='60px'>
+              <Box textAlign='center' width='60px'>
                 <img src={icons.sunset} alt='sunrise' />
                 <p>Sunset</p>
                 <span>{data.astro.sunset}</span>
               </Box>
             </Stack>
 
+           
           </Stack>
-          
+          <hr  />
           <Stack
             direction='row'
-            justifyContent='space-between'
-            p='10px 20px'
+            justifyContent={{xs: 'center', md: 'space-between'}}
+            p={{md: '10px', lg:'10px 20px'}}
             alignItems='center'
+            gap={{xs: '30px', md: '0'}}
+            flexWrap='wrap'
           >
 
             {/* Moon details */}
-            <Stack direction='row' alignItems='center' gap='15px'>
+            <Stack direction='row' alignItems='center' gap={{ xs: '15px', md:'10px', lg: '15px'}} >
               <img src={renderMoonPhase.value} className='icon' alt={data.astro.moon_phase} />
               <Stack>
                 <p>Moon Phase</p>
@@ -83,7 +100,7 @@ export default function ForecastDetails({ data }) {
             </Stack>
 
              {/* Wind */}
-             <Stack  direction='row' alignItems='center' gap='15px'>
+             <Stack  direction='row' alignItems='center' gap={{xs: '15px', md:'10px', lg: '15px'}}>
               <MdAir size='1.5em' className='icon' />
               <Stack>
                 <p>Wind</p>
@@ -92,9 +109,13 @@ export default function ForecastDetails({ data }) {
             </Stack>
 
             {/* Moon phase */}
-            <Stack direction='row' width='280px' justifyContent='space-between'>
+            <Stack
+              direction='row'
+              width={{xs:'100%', md: '280px'}}
+              justifyContent={{xs: 'center', md: 'space-between'}}
+            >
               {/* Moonrise */}
-              <Box textAlign='center'>
+              <Box textAlign='center' width='60px'>
                 <img src={icons.moonrise} alt='moonrise' />
                 <p>Moonrise</p>
                 <span>{data.astro.moonrise}</span>
@@ -106,7 +127,7 @@ export default function ForecastDetails({ data }) {
               </Box>
 
               {/* Moonset */}
-              <Box textAlign='center'>
+              <Box textAlign='center'  width='60px'>
                 <img src={icons.moonset} alt='moonrise' />
                 <p>Moonset</p>
                 <span>{data.astro.moonset}</span>

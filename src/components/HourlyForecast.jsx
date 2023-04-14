@@ -21,6 +21,7 @@ export default function HourlyForecast({ dataKey }) {
     const fetchDataCityWeather = async(q) => {
       await axios.request({...weatherHourlyOptions, params: { q: q, days: days}}, {cancelToken: source.token}).then(function (response) {
         let data;
+        //set data based on current hour
         if (days === 1) {
           data = response.data.forecast.forecastday[0].hour.slice(hour, 24)
         } else {

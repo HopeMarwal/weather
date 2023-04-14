@@ -6,6 +6,8 @@ import { Box, Stack } from '@mui/material'
 import { BsSun } from 'react-icons/bs';
 import { icons, moonPhase } from '../assets/img/detail/detailIcons'
 import { MdAir } from 'react-icons/md';
+//Components
+import AstroData from './AstroData';
 
 export default function ForecastDetails({ data }) {
   const renderMoonPhase = moonPhase.find(el => el.title === data.astro.moon_phase)
@@ -59,11 +61,11 @@ export default function ForecastDetails({ data }) {
               justifyContent={{xs: 'center', md: 'space-between'}}
             >
               {/* Sunrise */}
-              <Box textAlign='center' width='60px'>
-                <img src={icons.sunrise} alt='sunrise' />
-                <p>Sunrise</p>
-                <span>{data.astro.sunrise}</span>
-              </Box>
+              <AstroData
+                img={icons.sunrise}
+                title='Sunrise'
+                time={data.astro.sunrise}
+              />
 
               {/* Sun circle */}
               <Box className='circle_wrapper'>
@@ -71,16 +73,17 @@ export default function ForecastDetails({ data }) {
               </Box>
 
               {/* Sunset */}
-              <Box textAlign='center' width='60px'>
-                <img src={icons.sunset} alt='sunrise' />
-                <p>Sunset</p>
-                <span>{data.astro.sunset}</span>
-              </Box>
+              <AstroData
+                img={icons.sunset}
+                title='Sunset'
+                time={data.astro.sunset}
+              />
             </Stack>
-
-           
           </Stack>
+
           <hr  />
+
+          {/* Moon details */}
           <Stack
             direction='row'
             justifyContent={{xs: 'center', md: 'space-between'}}
@@ -90,7 +93,6 @@ export default function ForecastDetails({ data }) {
             flexWrap='wrap'
           >
 
-            {/* Moon details */}
             <Stack direction='row' alignItems='center' gap={{ xs: '15px', md:'10px', lg: '15px'}} >
               <img src={renderMoonPhase.value} className='icon' alt={data.astro.moon_phase} />
               <Stack>
@@ -115,11 +117,11 @@ export default function ForecastDetails({ data }) {
               justifyContent={{xs: 'center', md: 'space-between'}}
             >
               {/* Moonrise */}
-              <Box textAlign='center' width='60px'>
-                <img src={icons.moonrise} alt='moonrise' />
-                <p>Moonrise</p>
-                <span>{data.astro.moonrise}</span>
-              </Box>
+              <AstroData
+                img={icons.moonrise}
+                title='Moonrise'
+                time={data.astro.moonrise}
+              />
 
               {/* Moon circle */}
               <Box className='circle_wrapper'>
@@ -127,11 +129,11 @@ export default function ForecastDetails({ data }) {
               </Box>
 
               {/* Moonset */}
-              <Box textAlign='center'  width='60px'>
-                <img src={icons.moonset} alt='moonrise' />
-                <p>Moonset</p>
-                <span>{data.astro.moonset}</span>
-              </Box>
+              <AstroData
+                img={icons.moonset}
+                title='Moonset'
+                time={data.astro.moonset}
+              />
             </Stack>
 
           </Stack>

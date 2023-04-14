@@ -23,10 +23,12 @@ header {
     left: 0;
     background: #f7f7f7f8;
     color: $gray-clr;
-    width: 354px;
+    min-width: 290px;
+    max-width: 290px;
     padding: 10px;
     z-index: 10;
     display: none;
+
     &.open {
       display: flex;
     }

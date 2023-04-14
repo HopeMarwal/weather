@@ -1,5 +1,5 @@
 //MUI
-import { Stack, Box, Select, MenuItem, Typography } from "@mui/material"
+import { Stack, Box, Typography } from "@mui/material"
 import SearchIcon from '@mui/icons-material/Search';
 //Style
 import '../assets/style/heading.scss'
@@ -14,7 +14,9 @@ import axios from "axios";
 import { useUnit } from "../context/unitContext";
 
 export default function Heading({ currentZone, setKey}) {
+  //Context data
   const {unit, setUnit} = useUnit()
+  //Local state
   const [inputValue, setInputValue] = useState('')
   const [locations, setLocations] = useState(null)
   const [selectedRegion, setSelectedRegion] = useState(null)
@@ -27,20 +29,23 @@ export default function Heading({ currentZone, setKey}) {
     setSelectedRegion(null)
   }, [currentZone])
 
+  //handle change input value
   const handleChange = async (e) => {
     setInputValue(e.target.value)
-    await axios.request({...searchOptions, params: { q: e.target.value}}).then(function (response) {
-      setLocations(response.data)
-      setIsModalOpen(true)
-    }).catch(function (error) {
-      console.error(error);
-    });
+    if(e.target.value) {
+      await axios.request({...searchOptions, params: { q: e.target.value}}).then(function (response) {
+        setLocations(response.data)
+        setIsModalOpen(true)
+      }).catch(function (error) {
+        console.error(error);
+      });
+    }
   }
 
+  //handle select region
   const handleClick = (lat, lon ,city, region) => {
     setKey(`${lat}, ${lon}`)
-    const data = {city: city, region: region}
-    setSelectedRegion(data)
+    setSelectedRegion({city: city, region: region})
     setInputValue('')
     setIsModalOpen(false)
     setLocations(null)

@@ -68,8 +68,9 @@ export default function Main({ dataKey, setBgPhrase }) {
     return () => {
       source.cancel()
     }
-  }, [dataKey])
+  }, [dataKey,setBgPhrase])
 
+  //Handle bg to change when weather condition changes
   const handleChangeClass = (condition, isDay) => {
     let newClName;
     switch (true){
